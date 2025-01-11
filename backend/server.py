@@ -74,7 +74,6 @@ def userdelete(NPM):
     db.session.delete(user)
     db.session.commit()
 
-    # Data semua pengguna setelah penghapusan
     all_users = User.query.all()
     result = users_schema.dump(all_users)
     
@@ -91,7 +90,7 @@ def useradd():
     Alamat = request.json['Alamat']
     No_Telp = request.json['No_Telp']
     
-    #unutk menghindari duplikate
+
     existing_user = User.query.filter_by(NPM=NPM).first() 
     if existing_user: 
         return jsonify({"error": "NPM already exists"}), 400

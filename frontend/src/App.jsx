@@ -9,9 +9,12 @@ function App() {
   return (
     <div className="min-vh-100 bg-light text-dark">
       <div className="container py-5">
-        <h1 className="text-center mb-5 fw-bold text-primary">
-          Hello, Selamat Code Anda Tidak Eror
-        </h1>
+        <div className="text-center mb-5">
+          <h1 className="fw-bold text-primary mb-3">
+            Hello, Selamat Datang Admin
+          </h1>
+          <p className="lead text-muted">Apakah ada tugas hari ini?</p>
+        </div>
 
         <BrowserRouter>
           <Routes>

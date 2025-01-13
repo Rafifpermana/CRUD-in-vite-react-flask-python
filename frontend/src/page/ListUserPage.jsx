@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Link } from "react-router-dom";
+import Alert from "../components/Alert";
 
 export default function ListUserPage() {
   const [users, setUsers] = useState([]);
@@ -62,21 +63,12 @@ export default function ListUserPage() {
           </p>
           <h1>List Users</h1>
 
-          {alert.show && (
-            <div
-              className={`alert alert-${alert.type} alert-dismissible fade show`}
-              role="alert"
-            >
-              {alert.message}
-              <button
-                type="button"
-                className="btn-close"
-                data-bs-dismiss="alert"
-                aria-label="Close"
-                onClick={() => setAlert({ show: false, message: "", type: "" })}
-              ></button>
-            </div>
-          )}
+          <Alert
+            show={alert.show}
+            message={alert.message}
+            type={alert.type}
+            onClose={() => setAlert({ show: false, message: "", type: "" })}
+          />
 
           <table className="table table-striped table-bordered shadow">
             <thead className="table-dark">

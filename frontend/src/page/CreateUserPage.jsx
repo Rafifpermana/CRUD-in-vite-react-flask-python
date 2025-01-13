@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Alert from "../components/Alert";
 
 export default function CreateUserPage() {
   const navigate = useNavigate();
@@ -49,23 +50,12 @@ export default function CreateUserPage() {
               <h3>Create New User</h3>
             </div>
             <div className="card-body p-4">
-              {alert.show && (
-                <div
-                  className={`alert alert-${alert.type} alert-dismissible fade show`}
-                  role="alert"
-                >
-                  {alert.message}
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="alert"
-                    aria-label="Close"
-                    onClick={() =>
-                      setAlert({ show: false, message: "", type: "" })
-                    }
-                  ></button>
-                </div>
-              )}
+              <Alert
+                show={alert.show}
+                message={alert.message}
+                type={alert.type}
+                onClose={() => setAlert({ show: false, message: "", type: "" })}
+              />
 
               <form onSubmit={handleSubmit}>
                 <div className="row g-3">

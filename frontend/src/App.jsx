@@ -1,30 +1,53 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ListUserPage from "./page/ListUserPage.jsx";
-import CreateUserPage from "./page/CreateUserPage.jsx";
-import EditUserPage from "./page/EditUserPage.jsx";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import LoginPage from "./page/LoginPage";
+import AdminPage from "./page/AdminPage";
+import UserPage from "./page/UserPage";
+import Navbar from "./components/Navbar";
 
 function App() {
-  return (
-    <div className="min-vh-100 bg-light text-dark">
-      <div className="container py-5">
-        <div className="text-center mb-5">
-          <h1 className="fw-bold text-primary mb-3">
-            Hello, Selamat Datang Admin
-          </h1>
-          <p className="lead text-muted">Apakah ada tugas hari ini?</p>
-        </div>
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    !!localStorage.getItem("token") // Cek apakah token ada di localStorage
+  );
 
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<ListUserPage />} />
-            <Route path="/addnewuser" element={<CreateUserPage />} />
-            <Route path="/user/:NPM/edit" element={<EditUserPage />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
-    </div>
+  // Fungsi untuk menangani login
+  const handleLogin = (token) => {
+    localStorage.setItem("token", token); // Simpan token di localStorage
+    setIsAuthenticated(true); // Set state isAuthenticated menjadi true
+  };
+
+  // Fungsi untuk menangani logout
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Hapus token dari localStorage
+    setIsAuthenticated(false); // Set state isAuthenticated menjadi false
+  };
+
+  return (
+    <BrowserRouter>
+      <Navbar isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+      <Routes>
+        <Route
+          path="/login"
+          element={
+            isAuthenticated ? (
+              <Navigate to="/admin" />
+            ) : (
+              <LoginPage onLogin={handleLogin} />
+            )
+          }
+        />
+        <Route
+          path="/admin/*"
+          element={isAuthenticated ? <AdminPage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/user/*"
+          element={isAuthenticated ? <UserPage /> : <Navigate to="/login" />}
+        />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
